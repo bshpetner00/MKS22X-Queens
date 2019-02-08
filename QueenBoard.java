@@ -13,6 +13,12 @@ public class QueenBoard {
   public boolean addQueen(int r, int c) {
     if (board[r][c] == 0) {
       board[r][c] = -1;
+      for (int i = 0; i < board.length; i++) {
+        if (board[r][i] != -1) {
+          board[r][i] += 1;
+        }
+        //continue pattern traversing row, colum, and both diagonals using i as the increment and checking for queens in each case
+      }
       return true;
     }
     else {
