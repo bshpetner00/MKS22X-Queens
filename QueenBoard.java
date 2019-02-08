@@ -10,9 +10,9 @@ public class QueenBoard {
     }
   }
 
-  private boolean addQueen(int r, int c) {
+  public boolean addQueen(int r, int c) {
     if (board[r][c] == 0) {
-      board[r][c] == -1;
+      board[r][c] = -1;
       return true;
     }
     else {
@@ -20,7 +20,7 @@ public class QueenBoard {
     }
   }
 
-  private boolean removeQueen(int r, int c) {
+  public boolean removeQueen(int r, int c) {
     if (board[r][c] == -1) {
       board[r][c] = 0;
       return true;
@@ -28,6 +28,31 @@ public class QueenBoard {
     else {
       return false;
     }
+  }
+
+  public String toString() {
+    String s = "";
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board.length; j++) {
+        if (board[i][j] == -1) {
+          if (j == board.length -1) {
+            s+="Q\n";
+          }
+          else {
+            s += "Q ";
+          }
+        }
+        else {
+          if (j == board.length -1) {
+            s += "_\n";
+          }
+          else {
+            s += "_ ";
+          }
+        }
+      }
+    }
+    return s;
   }
 
 
