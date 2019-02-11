@@ -17,7 +17,39 @@ public class QueenBoard {
         if (board[r][i] != -1) {
           board[r][i] += 1;
         }
-        //continue pattern traversing row, colum, and both diagonals using i as the increment and checking for queens in each case
+        if (board[r][i] == -1) {
+          return false;
+        }
+        if (board[i][c] != -1) {
+          board[i][c] += 1;
+        }
+        if (board[i][c] == -1) {
+          return false;
+        }
+        if (board[r+i][c+i] != -1 && r+i < board.length && c+i < board.length) {
+          board[r+i][c+i] += 1;
+        }
+        if (board[r+i][c+i] == -1 && r+i < board.length && c+i < board.length) {
+          return false;
+        }
+        if (board[r-i][c-i] != -1 && r-i > 0 && c-i > 0) {
+          board[r-i][c-i] += 1;
+        }
+        if (board[r-i][c-i] == -1 && r-i > 0 && c-i > 0) {
+          return false;
+        }
+        if (board[r-i][c+i] != -1 && r-i > 0 && c+i < board.length) {
+          board[r-i][c+i] += 1;
+        }
+        if (board[r-i][c+i] == -1 && r-i > 0 && c+i < board.length) {
+          return false;
+        }
+        if (board[r+i][c-i] != -1 && r+i < board.length && c-i > 0) {
+          board[r+i][c-i] += 1;
+        }
+        if (board[r+i][c-i] != -1 && r+i < board.length && c-i > 0) {
+          return false;
+        }
       }
       return true;
     }
@@ -29,6 +61,12 @@ public class QueenBoard {
   public boolean removeQueen(int r, int c) {
     if (board[r][c] == -1) {
       board[r][c] = 0;
+      for (int i = 0; i < board.length; i++) {
+        if (board[r][i] > 0) {
+          board[r][i] -= 1;
+        }
+
+      }
       return true;
     }
     else {
