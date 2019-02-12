@@ -131,6 +131,32 @@ public class QueenBoard {
     }
   }
 
+  public int countHelp(int c, int count) {
+    if (c >= board.length) {
+      return count;
+    }
+    else {
+      for (int r = 0; r < board.length; r++) {
+        if (addQueen(r,c)) {
+          if (solveHelp(c+1)) {
+            count++;
+          }
+        }
+        removeQueen(r,c);
+      }  
+    }
+    return countHelp(c+1,count);
+  }
+
+  public int countSolutions() throws IllegalStateException {
+    if (board[0][0] != 0) {
+      throw new IllegalStateException("Empty board required.");
+    }
+    else {
+      return this.countHelp(0,0);
+    }
+  }
+
 
 
 
