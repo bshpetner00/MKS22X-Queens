@@ -148,8 +148,18 @@ public class QueenBoard {
     return false;
   }
 
+  public void clearBoard(QueenBoard b, int s) {
+    b = new QueenBoard(s);
+  }
+
   public boolean solve() {
-    return this.solveHelp(0);
+    if (this.solveHelp(0)) {
+      return true;
+    }
+    else {
+      this.clearBoard(this, board.length);
+      return false; 
+    }
   }
 
 
