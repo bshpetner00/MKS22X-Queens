@@ -108,7 +108,6 @@ public class QueenBoard {
     if (c >= board.length) {
       return true;
     }
-    else {
       for (int r = 0; r < board.length; r++) {
         if (addQueen(r,c)) {
           if (solveHelp(c+1)) {
@@ -119,7 +118,6 @@ public class QueenBoard {
       }
       clearBoard(this,board.length);
       return false;
-    }
   }
 
   public boolean solve() throws IllegalStateException {
