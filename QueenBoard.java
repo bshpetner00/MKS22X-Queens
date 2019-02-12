@@ -101,34 +101,34 @@ public class QueenBoard {
     return s;
   }
 
+  public void clearBoard(QueenBoard b, int s) {
+    b = new QueenBoard(s);
+  }
+  
   public boolean solveHelp(int c) {
     if (c >= board.length) {
       return true;
     }
-    for (int r = 0; r < board.length; r++) {
-      if (addQueen(r,c)) {
-        if (solveHelp(c+1)) {
-          return true;
-        }
-        else {
+    else {
+      for (int r = 0; r < board.length; r++) {
+        if (addQueen(r,c)) {
+          if (solveHelp(c+1)) {
+            return true;
+          }
           removeQueen(r,c);
         }
       }
+      clearBoard(this,board.size);
+      return false;
     }
-    return false;
   }
 
-  public void clearBoard(QueenBoard b, int s) {
-    b = new QueenBoard(s);
-  }
-
-  public boolean solve() {
-    if (this.solveHelp(0)) {
-      return true;
+  public boolean solve() throws IllegalStateException {
+    if (board[0][0] != 0) {
+      throw new IllegalStateException("Empty board required.");
     }
-    else {
-      this.clearBoard(this, board.length);
-      return false; 
+    else { 
+      return this.solveHelp(0);
     }
   }
 
