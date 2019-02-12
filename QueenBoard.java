@@ -65,7 +65,39 @@ public class QueenBoard {
         if (board[r][i] > 0) {
           board[r][i] -= 1;
         }
-
+        if (board[r][i] <= 0) {
+          return false;
+        }
+        if (board[i][c] > 0) {
+          board[i][c] -= 1;
+        }
+        if (board[i][c] <= 0) {
+          return false;
+        }
+        if (board[r+i][c+i] > 0 && r+i < board.length && c+i < board.length) {
+          board[r+i][c+i] -= 1;
+        }
+        if (board[r+i][c+i] <= 0 && r+i < board.length && c+i < board.length) {
+          return false;
+        }
+        if (board[r-i][c-i] > 0 && r-i > 0 && c-i > 0) {
+          board[r-i][c-i] -= 1;
+        }
+        if (board[r-i][c-i] <= 0 && r-i > 0 && c-i > 0) {
+          return false;
+        }
+        if (board[r-i][c+i] > 0 && r-i > 0 && c+i < board.length) {
+          board[r-i][c+i] -= 1;
+        }
+        if (board[r-i][c+i] <= 0 && r-i > 0 && c+i < board.length) {
+          return false;
+        }
+        if (board[r+i][c-i] > 0 && r+i < board.length && c-i > 0) {
+          board[r+i][c-i] -= 1;
+        }
+        if (board[r+i][c-i] <= 0 && r+i < board.length && c-i > 0) {
+          return false;
+        }
       }
       return true;
     }
