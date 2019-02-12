@@ -16,40 +16,22 @@ public class QueenBoard {
       for (int i = 0; i < board.length; i++) {
         if (board[r][i] != -1) {
           board[r][i] += 1;
-        }
-        if (board[r][i] == -1) {
-          return false;
-        }
+        } // across row
         if (board[i][c] != -1) {
           board[i][c] += 1;
-        }
-        if (board[i][c] == -1) {
-          return false;
-        }
+        } // down column
         if (board[r+i][c+i] != -1 && r+i < board.length && c+i < board.length) {
           board[r+i][c+i] += 1;
-        }
-        if (board[r+i][c+i] == -1 && r+i < board.length && c+i < board.length) {
-          return false;
-        }
+        } //diagonal y = x
         if (board[r-i][c-i] != -1 && r-i > 0 && c-i > 0) {
           board[r-i][c-i] += 1;
-        }
-        if (board[r-i][c-i] == -1 && r-i > 0 && c-i > 0) {
-          return false;
-        }
+        } //diagonal -y = -x
         if (board[r-i][c+i] != -1 && r-i > 0 && c+i < board.length) {
           board[r-i][c+i] += 1;
-        }
-        if (board[r-i][c+i] == -1 && r-i > 0 && c+i < board.length) {
-          return false;
-        }
+        } //diagonal -y = x
         if (board[r+i][c-i] != -1 && r+i < board.length && c-i > 0) {
           board[r+i][c-i] += 1;
-        }
-        if (board[r+i][c-i] != -1 && r+i < board.length && c-i > 0) {
-          return false;
-        }
+        } // diagonal y = -x
       }
       return true;
     }
@@ -64,40 +46,28 @@ public class QueenBoard {
       for (int i = 0; i < board.length; i++) {
         if (board[r][i] > 0) {
           board[r][i] -= 1;
-        }
-        if (board[r][i] <= 0) {
-          return false;
-        }
+        } // across row
+
         if (board[i][c] > 0) {
           board[i][c] -= 1;
-        }
-        if (board[i][c] <= 0) {
-          return false;
-        }
+        } // down column
+
         if (board[r+i][c+i] > 0 && r+i < board.length && c+i < board.length) {
           board[r+i][c+i] -= 1;
-        }
-        if (board[r+i][c+i] <= 0 && r+i < board.length && c+i < board.length) {
-          return false;
-        }
+        } //diagonal y = x
+
         if (board[r-i][c-i] > 0 && r-i > 0 && c-i > 0) {
           board[r-i][c-i] -= 1;
-        }
-        if (board[r-i][c-i] <= 0 && r-i > 0 && c-i > 0) {
-          return false;
-        }
+        } //diagonal -y = -x
+
         if (board[r-i][c+i] > 0 && r-i > 0 && c+i < board.length) {
           board[r-i][c+i] -= 1;
-        }
-        if (board[r-i][c+i] <= 0 && r-i > 0 && c+i < board.length) {
-          return false;
-        }
+        } //diagonal -y = x
+
         if (board[r+i][c-i] > 0 && r+i < board.length && c-i > 0) {
           board[r+i][c-i] -= 1;
-        }
-        if (board[r+i][c-i] <= 0 && r+i < board.length && c-i > 0) {
-          return false;
-        }
+        } // diagonal y = -x
+
       }
       return true;
     }
