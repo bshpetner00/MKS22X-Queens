@@ -20,16 +20,16 @@ public class QueenBoard {
         if (board[i][c] != -1) {
           board[i][c] += 1;
         } // down column
-        if (board[r+i][c+i] != -1 && r+i < board.length && c+i < board.length) {
+        if (r+i < board.length && c+i < board.length && board[r+i][c+i] != -1) {
           board[r+i][c+i] += 1;
         } //diagonal y = x
-        if (board[r-i][c-i] != -1 && r-i > 0 && c-i > 0) {
+        if (r-i > 0 && c-i > 0 && board[r-i][c-i] != -1 ) {
           board[r-i][c-i] += 1;
         } //diagonal -y = -x
-        if (board[r-i][c+i] != -1 && r-i > 0 && c+i < board.length) {
+        if (r-i > 0 && c+i < board.length && board[r-i][c+i] != -1) {
           board[r-i][c+i] += 1;
         } //diagonal -y = x
-        if (board[r+i][c-i] != -1 && r+i < board.length && c-i > 0) {
+        if (r+i < board.length && c-i > 0 && board[r+i][c-i] != -1) {
           board[r+i][c-i] += 1;
         } // diagonal y = -x
       }
@@ -52,22 +52,21 @@ public class QueenBoard {
           board[i][c] -= 1;
         } // down column
 
-        if (board[r+i][c+i] > 0 && r+i < board.length && c+i < board.length) {
+        if (r+i < board.length && c+i < board.length && board[r+i][c+i] > 0) {
           board[r+i][c+i] -= 1;
         } //diagonal y = x
 
-        if (board[r-i][c-i] > 0 && r-i > 0 && c-i > 0) {
+        if ( r-i > 0 && c-i > 0 && board[r-i][c-i] > 0) {
           board[r-i][c-i] -= 1;
         } //diagonal -y = -x
 
-        if (board[r-i][c+i] > 0 && r-i > 0 && c+i < board.length) {
+        if (r-i > 0 && c+i < board.length && board[r-i][c+i] > 0) {
           board[r-i][c+i] -= 1;
         } //diagonal -y = x
 
-        if (board[r+i][c-i] > 0 && r+i < board.length && c-i > 0) {
+        if (r+i < board.length && c-i > 0 && board[r+i][c-i] > 0) {
           board[r+i][c-i] -= 1;
         } // diagonal y = -x
-
       }
       return true;
     }
@@ -118,7 +117,7 @@ public class QueenBoard {
           removeQueen(r,c);
         }
       }
-      clearBoard(this,board.size);
+      clearBoard(this,board.length);
       return false;
     }
   }
