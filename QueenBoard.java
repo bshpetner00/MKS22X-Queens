@@ -131,6 +131,28 @@ public class QueenBoard {
     return s;
   }
 
+  public boolean solveHelp(int c) {
+    if (c >= board.length) {
+      return true;
+    }
+    for (int r = 0; r < board.length; r++) {
+      if (addQueen(r,c)) {
+        if (solveHelp(c+1)) {
+          return true;
+        }
+        else {
+          removeQueen(r,c);
+        }
+      }
+    }
+    return false;
+  }
+
+  public boolean solve() {
+    return this.solveHelp(0);
+  }
+
+
 
 
 }
