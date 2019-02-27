@@ -1,5 +1,6 @@
 public class QueenBoard {
   private int[][]board;
+  private int numQueens;
 
   public QueenBoard(int size){
     board = new int[size][size];
@@ -12,64 +13,48 @@ public class QueenBoard {
 
   public boolean addQueen(int r, int c) {
     if (board[r][c] == 0) {
+      int inc = 0;
       board[r][c] = -1;
+      numQueens++;
       for (int i = 0; i < board.length; i++) {
-        if ((r-i > 0 && c-i > 0 && board[r-i][c-i] == -1) || (r-i > 0 && c+i < board.length && board[r-i][c+i] == -1) || (r+i < board.length && c-i > 0 && board[r+i][c-i] != -1)) {
-          return false;
+        board[i][c]++; // marks all the way down column
+      }
+      for (int j = c; j < board.length; j++) { // marks possible spaces all the way down row
+        board[r][j]++;
+        if (r-inc >= 0) { //diagonal
+          board[r-inc][j]++;
         }
+        if (r+inc < board.length) { //diagonal
+          board[r+inc][j]++;
+        }
+        inc++;
       }
-      for (int q = 0; q < board.length; q++) {
-        if (board[r][q] != -1) {
-          board[r][q] += 1;
-        } // across row
-        if (board[q][c] != -1) {
-          board[q][c] += 1;
-        } // down column
-        if (r+q < board.length && c+q < board.length && board[r+q][c+q] != -1) {
-          board[r+q][c+q] += 1;
-        } //diagonal y = x
-        if (r-q > 0 && c-q > 0 && board[r-q][c-q] != -1 ) {
-          board[r-q][c-q] += 1;
-        } //diagonal -y = -x
-        if (r-q > 0 && c+q < board.length && board[r-q][c+q] != -1) {
-          board[r-q][c+q] += 1;
-        } //diagonal -y = x
-        if (r+q < board.length && c-q > 0 && board[r+q][c-q] != -1) {
-          board[r+q][c-q] += 1;
-        } // diagonal y = -x
-        return true;
-      }
+      return true;
     }
-    return false;
+    else {
+      return false;
+    }
   }
 
-  public boolean removeQueen(int r, int c) {
+  public boolean removeQueen(int r, int c) { //almost identical to add except in reverse
     if (board[r][c] == -1) {
+      int inc = 0;
       board[r][c] = 0;
-      for (int i = 0; i < board.length; i++) {
-        if (board[r][i] > 0) {
-          board[r][i] -= 1;
-        } // across row
-
-        if (board[i][c] > 0) {
-          board[i][c] -= 1;
-        } // down column
-
-        if (r+i < board.length && c+i < board.length && board[r+i][c+i] > 0) {
-          board[r+i][c+i] -= 1;
-        } //diagonal y = x
-
-        if ( r-i > 0 && c-i > 0 && board[r-i][c-i] > 0) {
-          board[r-i][c-i] -= 1;
-        } //diagonal -y = -x
-
-        if (r-i > 0 && c+i < board.length && board[r-i][c+i] > 0) {
-          board[r-i][c+i] -= 1;
-        } //diagonal -y = x
-
-        if (r+i < board.length && c-i > 0 && board[r+i][c-i] > 0) {
-          board[r+i][c-i] -= 1;
-        } // diagonal y = -x
+      numQueens--;
+      for (int i = 0; i < board.length; i++) { //marks all the way down column
+        if (i != r) { //special check to ensure that original position doesn't get altered twice
+          board[i][c]--;
+        }
+      }
+      for (int j = c; j < board.length; j++) {
+        board[r][j]--;
+        if (r-inc >= 0) {
+          board[r-inc][j]--;
+        }
+        if (r + inc < board.length) {
+          board[r+inc][j]--;
+        }
+        inc++;
       }
       return true;
     }
@@ -104,32 +89,38 @@ public class QueenBoard {
   }
 
   public void clearBoard(QueenBoard b, int s) {
-    b = new QueenBoard(s);
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board.length; j++) {
+        board[i][j] = 0;
+      }
+    }
   }
-
+  
   public boolean solveHelp(int c) {
     if (c >= board.length) {
       return true;
     }
-    for (int r = 0; r < board.length; r++) {
-      if (addQueen(r,c)) {
-        if (solveHelp(c+1)) {
-          return true;
+      for (int r = 0; r < board.length; r++) {
+        if (addQueen(r,c)) {
+          if (solveHelp(c+1)) {
+            return true;
+          }
+          removeQueen(r,c);
         }
-        removeQueen(r,c);
       }
-    }
-    clearBoard(this,board.length);
-    return false;
+      clearBoard(this,board.length);
+      return false;
   }
 
   public boolean solve() throws IllegalStateException {
-    if (board[0][0] != 0) {
-      throw new IllegalStateException("Empty board required.");
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board.length; j++) {
+        if (board[i][j] != 0) {
+          throw new IllegalStateException("Empty board required.");
+        }
+      }
     }
-    else {
-      return this.solveHelp(0);
-    }
+    return this.solveHelp(0);
   }
 
   public int countHelp(int c, int count) {
@@ -140,26 +131,23 @@ public class QueenBoard {
       for (int r = 0; r < board.length; r++) {
         if (addQueen(r,c)) {
           if (solveHelp(c+1)) {
-            System.out.println(this.toString());
             count++;
           }
         }
         removeQueen(r,c);
-      }
+      }  
     }
     return countHelp(c+1,count);
   }
 
   public int countSolutions() throws IllegalStateException {
-    if (board[0][0] != 0) {
-      throw new IllegalStateException("Empty board required.");
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board.length; j++) {
+        if (board[i][j] != 0) {
+          throw new IllegalStateException("Empty board required.");
+        }
+      }
     }
-    else {
-      return this.countHelp(0,0);
-    }
+    return this.countHelp(0,0);
   }
-
-
-
-
 }
