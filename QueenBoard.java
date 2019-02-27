@@ -1,6 +1,5 @@
 public class QueenBoard {
   private int[][]board;
-  private int numQueens;
 
   public QueenBoard(int size){
     board = new int[size][size];
@@ -11,24 +10,27 @@ public class QueenBoard {
     }
   }
 
+  public int getVal(int r, int c) {
+    return this.board[r][c];
+  }
+
   public boolean addQueen(int r, int c) {
     if (board[r][c] == 0) {
       int inc = 0;
-      board[r][c] = -1;
-      numQueens++;
       for (int i = 0; i < board.length; i++) {
-        board[i][c]++; // marks all the way down column
+        board[i][c] += 1; // marks all the way down column
       }
       for (int j = c; j < board.length; j++) { // marks possible spaces all the way down row
-        board[r][j]++;
-        if (r-inc >= 0) { //diagonal
-          board[r-inc][j]++;
+        board[r][j] += 1;
+        if (r-inc >= 0) { //diagonal w/ increment (lower bound)
+          board[r-inc][j] += 1;
         }
-        if (r+inc < board.length) { //diagonal
-          board[r+inc][j]++;
+        if (r+inc < board.length) { //diagonal w/ increment (upper bound)
+          board[r+inc][j] += 1;
         }
         inc++;
       }
+      board[r][c] = -1;
       return true;
     }
     else {
@@ -39,23 +41,20 @@ public class QueenBoard {
   public boolean removeQueen(int r, int c) { //almost identical to add except in reverse
     if (board[r][c] == -1) {
       int inc = 0;
-      board[r][c] = 0;
-      numQueens--;
       for (int i = 0; i < board.length; i++) { //marks all the way down column
-        if (i != r) { //special check to ensure that original position doesn't get altered twice
-          board[i][c]--;
-        }
+        board[i][c] -= 1;
       }
       for (int j = c; j < board.length; j++) {
-        board[r][j]--;
+        board[r][j] -= 1;
         if (r-inc >= 0) {
-          board[r-inc][j]--;
+          board[r-inc][j] -= 1;
         }
         if (r + inc < board.length) {
-          board[r+inc][j]--;
+          board[r+inc][j] -= 1;
         }
         inc++;
       }
+      board[r][c] = 0;
       return true;
     }
     else {
@@ -84,6 +83,26 @@ public class QueenBoard {
           }
         }
       }
+    }
+    return s;
+  }
+
+  public String toStringDebug() {
+    String s = "";
+    String piece = "";
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board.length; j++) {
+          if (j == board.length -1) {
+            piece = ""+board[i][j]+"\n"; 
+            s+=piece;
+            piece = "";
+          }
+          else {
+            piece = ""+board[i][j]+" ";
+            s += piece;
+            piece = "";
+          }
+        }
     }
     return s;
   }
