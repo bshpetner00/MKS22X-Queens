@@ -28,7 +28,7 @@ public class QueenBoard {
         if (r+inc < board.length) { //diagonal w/ increment (upper bound)
           board[r+inc][j] += 1;
         }
-        inc++;
+        inc+=1;
       }
       board[r][c] = -1;
       return true;
@@ -42,17 +42,19 @@ public class QueenBoard {
     if (board[r][c] == -1) {
       int inc = 0;
       for (int i = 0; i < board.length; i++) { //marks all the way down column
-        board[i][c] -= 1;
+        if (i != r) {
+          board[i][c] -= 1;
+        }
       }
       for (int j = c; j < board.length; j++) {
         board[r][j] -= 1;
-        if (r-inc >= 0) {
+        if (r >= inc) {
           board[r-inc][j] -= 1;
         }
         if (r + inc < board.length) {
           board[r+inc][j] -= 1;
         }
-        inc++;
+        inc+=1;
       }
       board[r][c] = 0;
       return true;
@@ -115,20 +117,19 @@ public class QueenBoard {
     }
   }
   
-  public boolean solveHelp(int c) {
+  private boolean solveHelp(int c) {
     if (c >= board.length) {
       return true;
-    }
-      for (int r = 0; r < board.length; r++) {
-        if (addQueen(r,c)) {
-          if (solveHelp(c+1)) {
-            return true;
-          }
-          removeQueen(r,c);
-        }
+    } 
+    for (int r = 0; r < board.length; r ++) {
+      if (addQueen(r, c)) {
+        if (solveHelp(c + 1)) {
+          return true;
+        } 
+        removeQueen(r, c);
       }
-      clearBoard(this,board.length);
-      return false;
+    }
+    return false;
   }
 
   public boolean solve() throws IllegalStateException {
@@ -139,7 +140,7 @@ public class QueenBoard {
         }
       }
     }
-    return this.solveHelp(0);
+    return solveHelp(0);
   }
 
   public int countHelp(int c, int count) {
@@ -167,6 +168,6 @@ public class QueenBoard {
         }
       }
     }
-    return this.countHelp(0,0);
+    return countHelp(0,0);
   }
 }
