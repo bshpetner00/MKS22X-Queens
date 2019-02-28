@@ -109,7 +109,7 @@ public class QueenBoard {
     return s;
   }
 
-  public void clearBoard(QueenBoard b, int s) {
+  public void clearBoard() {
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board.length; j++) {
         board[i][j] = 0;
@@ -143,21 +143,20 @@ public class QueenBoard {
     return solveHelp(0);
   }
 
-  public int countHelp(int c, int count) {
-    if (c >= board.length) {
-      return count;
+  public int countHelp(int c, int queens) {
+    int s = 0;
+    if (queens == board.length) {
+      return 1;
     }
     else {
       for (int r = 0; r < board.length; r++) {
         if (addQueen(r,c)) {
-          if (solveHelp(c+1)) {
-            count++;
-          }
+          s += countHelp(c+1,queens+1);
         }
         removeQueen(r,c);
-      }  
+      }
+      return s;
     }
-    return countHelp(c+1,count);
   }
 
   public int countSolutions() throws IllegalStateException {
